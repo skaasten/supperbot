@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "supperbot",
   "dependencies": {
-    "botbuilder": "^0.8.0"
+    "botbuilder": "^0.8.0",
+    "restify": "^4.0.4"
   }
 }
