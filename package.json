@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "supperbot",
   "dependencies": {
-    "botbuilder": "git://github.com/Microsoft/BotBuilder.git#69fd2725d0b0d7e04a27ddfa311bf0b1e4d95bc2",
+    "botbuilder": "git+https://github.com/skaasten/BotBuilder.git",
     "restify": "^4.0.4"
   },
   "scripts": {
