@@ -8,5 +8,9 @@
   },
   "scripts": {
     "start": "node app.js"
-  }
+  },
+  "main": "app.js",
+  "engines": {
+    "node": "4.1.1"
+   }
 }
