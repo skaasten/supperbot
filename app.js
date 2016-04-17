@@ -5,7 +5,13 @@ supperbot.add('/', function (session) {
     if (!session.userData.menu) {
       session.beginDialog('/menu');
     } else {
-      session.send("Hi, tonight you're having %s", session.userData.menu);
+      if (session.message.text.indexOf('no') !== -1) {
+        session.userData.menu = null;
+        session.send("Okay, we can have something else - what do you want?");
+        session.beginDialog('/menu');
+      } else {
+        session.send("Hi, tonight you're having %s", session.userData.menu);
+      }
     }
 });
 supperbot.add('/menu', [
