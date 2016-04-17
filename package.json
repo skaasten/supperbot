@@ -5,5 +5,8 @@
   "dependencies": {
     "botbuilder": "^0.8.0",
     "restify": "^4.0.4"
+  },
+  "scripts": {
+    "start": "node app.js"
   }
 }
