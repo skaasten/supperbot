@@ -5,12 +5,17 @@ supperbot.add('/', function (session) {
     if (!session.userData.menu) {
       session.beginDialog('/menu');
     } else {
-      if (session.message.text.indexOf('no') !== -1) {
+      if ((session.message.text.indexOf('no') !== -1) ||
+          (session.message.text.indexOf('No') !== -1)) {
         session.userData.menu = null;
         session.send("Okay, we can have something else - what do you want?");
         session.beginDialog('/menu');
       } else {
-        session.send("Hi, tonight you're having %s", session.userData.menu);
+        session.send("Hi, tonight you're having %s.\n" +
+                     "We need to %s.",
+                     session.userData.menu,
+                     session.userData.preparation);
+
       }
     }
 });
@@ -20,6 +25,15 @@ supperbot.add('/menu', [
   },
   function (session, result) {
     session.userData.menu = result.response;
+    builder.Prompts.text(session, "Okay, what do we need to prepare it?");
+  },
+  function (session, result) {
+    session.userData.preparation = result.response;
+    builder.Prompts.text(session, "When should we do that?");
+  },
+  function (session, result) {
+    session.userData.schedule = result.response;
+    session.send("Great - sounds like a plan!");
     session.endDialog();
   }
 ]);
