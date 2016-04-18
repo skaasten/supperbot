@@ -4,6 +4,7 @@
   "description": "supperbot",
   "dependencies": {
     "botbuilder": "git+https://github.com/skaasten/BotBuilder.git",
+    "moment": "^2.12.0",
     "restify": "^4.0.4"
   },
   "scripts": {

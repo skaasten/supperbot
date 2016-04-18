@@ -1,8 +1,9 @@
 var builder = require('botbuilder');
 var supperbot = new builder.BotConnectorBot({ appId: process.env.APP_ID, appSecret: process.env.APP_SECRET });
+var moment = require('moment');
 
 supperbot.add('/', function (session) {
-    if (!session.userData.menu) {
+    if (!session.userData.schedule) {
       session.beginDialog('/menu');
     } else {
       if ((session.message.text.indexOf('no') !== -1) ||
@@ -12,9 +13,11 @@ supperbot.add('/', function (session) {
         session.beginDialog('/menu');
       } else {
         session.send("Hi, tonight you're having %s.\n" +
-                     "We need to %s.",
+                     "We need to %s %s from now.",
                      session.userData.menu,
-                     session.userData.preparation);
+                     session.userData.preparation,
+                     moment(session.userData.schedule).fromNow()
+                    );
 
       }
     }
@@ -29,10 +32,11 @@ supperbot.add('/menu', [
   },
   function (session, result) {
     session.userData.preparation = result.response;
-    builder.Prompts.text(session, "When should we do that?");
+    builder.Prompts.time(session, "When should we do that?");
   },
   function (session, result) {
-    session.userData.schedule = result.response;
+    session.userData.schedule = builder.EntityRecognizer.resolveTime([result.response]);
+    console.log(session.userData.schedule);
     session.send("Great - sounds like a plan!");
     session.endDialog();
   }
