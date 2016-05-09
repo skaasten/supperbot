@@ -10,15 +10,20 @@ var weeklyDinner = {
   'Friday': undefined
 };
 var commandDialog = new builder.CommandDialog()
-  .matches('^week', '/week')
-  .onDefault(builder.DialogAction.send("Sorry, I didn't get that"));
+      .matches('^week', '/week')
+      .matches('^help', '/help')
+      .onDefault(builder.DialogAction.send("Sorry, I didn't get that"));
 
 supperbot.add('/', commandDialog)
   .add('/week', function(session) {
-    builder.Prompts.text(session,
-                         "Here are the meals for the week:\n");
+    session.send("Here are the meals for this week:");
+    session.endDialog();
+  })
+  .add('/help', function(session) {
+    session.send("Here are some commands:\n" +
+                 "    week: show meals for the week");
+    session.endDialog();
   });
-
 
 var restify = require('restify');
 var server = restify.createServer();
