@@ -12,15 +12,19 @@ var weeklyDinner = {
 var commandDialog = new builder.CommandDialog()
       .matches('^week', '/week')
       .matches('^help', '/help')
-      .onDefault(builder.DialogAction.send("Sorry, I didn't get that"));
+      .onDefault(builder.DialogAction.send("Sorry, I didn't get that. Try 'help' to see some commands I understand."));
 
 supperbot.add('/', commandDialog)
   .add('/week', function(session) {
-    session.send("Here are the meals for this week:");
+    var output = "Here are the meals for this week:\n\n";
+    for (var day in weeklyDinner) {
+      output += day + ":\n\n";
+    }
+    session.send(output);
     session.endDialog();
   })
   .add('/help', function(session) {
-    session.send("Here are some commands:\n" +
+    session.send("Here are some commands:\n\n" +
                  "    week: show meals for the week");
     session.endDialog();
   });
