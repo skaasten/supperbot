@@ -9,13 +9,16 @@ var weeklyDinner = {
   'Thursday': undefined,
   'Friday': undefined
 };
-supperbot.add('/', [
-  function (session) {
+var commandDialog = new builder.CommandDialog()
+  .matches('^week', '/week')
+  .onDefault(builder.DialogAction.send("Sorry, I didn't get that"));
+
+supperbot.add('/', commandDialog)
+  .add('/week', function(session) {
     builder.Prompts.text(session,
-                         "Hi! Let's plan dinners for the week!"
-                        );
-  }
-]);
+                         "Here are the meals for the week:\n");
+  });
+
 
 var restify = require('restify');
 var server = restify.createServer();
