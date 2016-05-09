@@ -9,6 +9,14 @@ var weeklyDinner = {
   'Thursday': undefined,
   'Friday': undefined
 };
+
+var mealsSet = function() {
+  for (var day in weeklyDinner) {
+    if (weeklyDinner[day]) return true;
+  }
+  return false;
+};
+
 var commandDialog = new builder.CommandDialog()
       .matches('^week', '/week')
       .matches('^help', '/help')
@@ -16,12 +24,16 @@ var commandDialog = new builder.CommandDialog()
 
 supperbot.add('/', commandDialog)
   .add('/week', function(session) {
-    var output = "Here are the meals for this week:\n\n";
-    for (var day in weeklyDinner) {
-      output += day + ":\n\n";
+    if (!mealsSet()) {
+      session.send("You don't have any meals set. Let's get on it!");
+    } else {
+      var output = "Here are the meals for this week:\n\n";
+      for (var day in weeklyDinner) {
+        output += day + ":\n\n";
+      }
+      session.send(output);
+      session.endDialog();
     }
-    session.send(output);
-    session.endDialog();
   })
   .add('/help', function(session) {
     session.send("Here are some commands:\n\n" +
